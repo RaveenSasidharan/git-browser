@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+        <variable
+            name="homeActivity"
+            type="com.example.gitbrowser.home.views.HomeActivity" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F8F8FB">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:textColor="@color/black"
+            android:layout_marginTop="51dp"
+            android:layout_marginStart="36dp"
+            android:textSize="30sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/chomsky"
+            android:text="@string/app_name"/>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_bar"
+            app:cardCornerRadius="16dp"
+            android:paddingVertical="11dp"
+            android:background="#ffffff"
+            android:layout_marginTop="28dp"
+            android:layout_marginHorizontal="34dp"
+            app:layout_constraintCircleRadius="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:padding="5dp"
+                android:id="@+id/search"
+                android:maxLines="1"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:drawablePadding="5dp"
+                android:textColor="#c1c0bf"
+                android:hint="Search"
+                android:drawableStart="@drawable/ic_group_63"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="21dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:scrollbarThumbVertical="@drawable/drawable_scrollbar_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_bar"
+            android:id="@+id/repoRecycler"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
