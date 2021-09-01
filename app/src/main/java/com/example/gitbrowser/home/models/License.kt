@@ -11,4 +11,4 @@ data class License (
     @SerializedName("spdx_id") val spdx_id : String,
     @SerializedName("node_id") val node_id : String,
     @SerializedName("html_url") val html_url : String
-):Serializable
+    ):Serializable

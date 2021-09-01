@@ -9,7 +9,7 @@ import com.example.gitbrowser.home.repo.HomeRepository
 import dagger.Module
 import javax.inject.Inject
 
-@Module
+
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val errorData = MutableLiveData<Throwable>()
 
@@ -19,18 +19,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     val trendingRepo : LiveData<RepoSearchResponse>
         get() {
-            val movieListResponse = MutableLiveData<RepoSearchResponse>()
-            homeRepository.getRepo(movieListResponse, errorData)
-            return movieListResponse
+            val repoListLiveData = MutableLiveData<RepoSearchResponse>()
+            homeRepository.getRepo(repoListLiveData, errorData)
+            return repoListLiveData
         }
 
 
 
     fun  searchTopicFor(query : String): LiveData<RepoSearchResponse>
     {
-        val movieListResponse = MutableLiveData<RepoSearchResponse>()
-        homeRepository.getRepoWithQuery(movieListResponse, errorData, query)
-        return movieListResponse
+        val repoListLiveData = MutableLiveData<RepoSearchResponse>()
+        homeRepository.getRepoWithQuery(repoListLiveData, errorData, query)
+        return repoListLiveData
     }
 
 
