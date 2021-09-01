@@ -59,11 +59,12 @@ public class HomeRepository {
                         public void onResponse(Call<RepoSearchResponse> call, Response<RepoSearchResponse> response) {
 
                             if (response.isSuccessful())
+                            {
+                                saveRepoLocally(response.body());
                                 repoListLiveData.setValue(response.body());
+                            }
                             else
                             {
-
-
                                 Throwable throwable = new Throwable("Server Failure");
                                 throwableMutableLiveData.setValue(throwable);
                             }
@@ -71,18 +72,29 @@ public class HomeRepository {
 
                         @Override
                         public void onFailure(Call<RepoSearchResponse> call, Throwable t) {
-                            Log.e("movie","onFailure ->"+t.getMessage());
-
                             throwableMutableLiveData.setValue(t);
                         }
                     });
         }
         else
         {
-            Log.e("movie","getNewsFeed no internet");
+            executor.execute(() ->{
+                List<GitRepo> gitRepos = db.gitRepoDao().getRepoList();
 
-            Throwable throwable = new Throwable("No Internet Connection");
-            throwableMutableLiveData.setValue(throwable);
+                if (gitRepos.size() >0)
+                {
+                    RepoSearchResponse repoSearchResponse = new RepoSearchResponse(gitRepos.size(), false, gitRepos);
+                    repoListLiveData.postValue(repoSearchResponse);
+                }
+                else
+                {
+                    Throwable throwable = new Throwable("No Internet Connection");
+                    throwableMutableLiveData.postValue(throwable);
+                }
+
+            });
+
+
         }
 
     }
@@ -100,11 +112,11 @@ public class HomeRepository {
                         public void onResponse(Call<List<Contributors>> call, Response<List<Contributors>> response) {
 
                             if (response.isSuccessful())
+                            {
                                 contributorLiveData.setValue(response.body());
+                            }
                             else
                             {
-
-
                                 Throwable throwable = new Throwable("Server Failure");
                                 throwableMutableLiveData.setValue(throwable);
                             }
@@ -112,15 +124,12 @@ public class HomeRepository {
 
                         @Override
                         public void onFailure(Call<List<Contributors>> call, Throwable t) {
-                            Log.e("movie","onFailure ->"+t.getMessage());
-
                             throwableMutableLiveData.setValue(t);
                         }
                     });
         }
         else
         {
-            Log.e("movie","getNewsFeed no internet");
 
             Throwable throwable = new Throwable("No Internet Connection");
             throwableMutableLiveData.setValue(throwable);
@@ -150,7 +159,6 @@ public class HomeRepository {
 
                         @Override
                         public void onFailure(Call<RepoSearchResponse> call, Throwable t) {
-                            Log.e("movie","onFailure ->"+t.getMessage());
 
                             throwableMutableLiveData.setValue(t);
                         }
@@ -158,8 +166,6 @@ public class HomeRepository {
         }
         else
         {
-            Log.e("movie","getNewsFeed no internet");
-
             Throwable throwable = new Throwable("No Internet Connection");
             throwableMutableLiveData.setValue(throwable);
         }
@@ -168,12 +174,14 @@ public class HomeRepository {
 
 
 
-    public void saveRepoLocally(GitRepo gitRepo)
+    public void saveRepoLocally(RepoSearchResponse repoSearchResponse)
     {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                db.gitRepoDao().insert(gitRepo);
+
+                for (GitRepo gitRepo: repoSearchResponse.getItems())
+                    db.gitRepoDao().insert(gitRepo);
             }
         });
     }
