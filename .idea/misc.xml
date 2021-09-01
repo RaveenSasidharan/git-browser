@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic__98858_repo_forked_icon.xml" value="0.1425925925925926" />
         <entry key="app/src/main/res/drawable/ic_fork.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/ic_star_border_purple500_black_18dp.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/layout/activity_browser.xml" value="0.12447916666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/activity_repo_details.xml" value="0.1735159817351598" />
         <entry key="app/src/main/res/layout/list_article_item.xml" value="0.21014492753623187" />

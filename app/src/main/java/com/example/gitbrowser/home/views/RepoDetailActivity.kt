@@ -1,5 +1,6 @@
 package com.example.gitbrowser.home.views
 
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -43,7 +44,7 @@ class RepoDetailActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        activityRepoDetailsBinding.repoTitle.text = gitRepo.name
+        activityRepoDetailsBinding.repoTitle.text = gitRepo.full_name
         activityRepoDetailsBinding.link.text = gitRepo.html_url
         activityRepoDetailsBinding.aboutText.text = gitRepo.description
         activityRepoDetailsBinding.license.text = gitRepo.license.name
@@ -74,11 +75,21 @@ class RepoDetailActivity : AppCompatActivity() {
 
     fun openLicense()
     {
-
+        val intent : Intent = Intent(this,BrowserActivity::class.java)
+        val bundle : Bundle = Bundle()
+        bundle.putString("title", gitRepo.license.name)
+        bundle.putString("url", gitRepo.license.html_url)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     fun openGitRepo()
     {
-
+        val intent : Intent = Intent(this,BrowserActivity::class.java)
+        val bundle : Bundle = Bundle()
+        bundle.putString("title", gitRepo.full_name)
+        bundle.putString("url", gitRepo.url)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 }
