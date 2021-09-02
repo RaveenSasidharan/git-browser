@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -67,11 +69,15 @@ class HomeActivity : AppCompatActivity() {
 
     fun fetchRepositoryForPage( page : Int){
         activityHomeBinding.repoShimmer.startShimmer()
+        activityHomeBinding.repoShimmer.visibility = VISIBLE
+
 
         homeViewModel.fetchRepoForPage(page, query).observe(this@HomeActivity,{it ->
             repoAdapter.addRepos(it.items)
             repoAdapter.notifyDataSetChanged()
             activityHomeBinding.repoShimmer.stopShimmer()
+            activityHomeBinding.repoShimmer.visibility = INVISIBLE
+
 
         })
     }
@@ -91,6 +97,8 @@ class HomeActivity : AppCompatActivity() {
                 if (!TextUtils.isEmpty(s)){
 
                     activityHomeBinding.repoShimmer.startShimmer()
+                    activityHomeBinding.repoShimmer.visibility = VISIBLE
+
 
                     query = s.toString()
                     homeViewModel.searchTopicFor(s.toString()).observe(this@HomeActivity,{it ->
@@ -103,6 +111,8 @@ class HomeActivity : AppCompatActivity() {
                         repoAdapter.notifyDataSetChanged()
 
                         activityHomeBinding.repoShimmer.stopShimmer()
+                        activityHomeBinding.repoShimmer.visibility = INVISIBLE
+
 
                     })
                 }
@@ -118,6 +128,7 @@ class HomeActivity : AppCompatActivity() {
     fun popuateRepo()
      {
          activityHomeBinding.repoShimmer.startShimmer()
+         activityHomeBinding.repoShimmer.visibility = VISIBLE
 
          query = "popular"
          homeViewModel.trendingRepo.observe(this,{it ->
@@ -130,6 +141,8 @@ class HomeActivity : AppCompatActivity() {
              activityHomeBinding.repoRecycler.adapter = repoAdapter
              repoAdapter.notifyDataSetChanged()
              activityHomeBinding.repoShimmer.stopShimmer()
+             activityHomeBinding.repoShimmer.visibility = INVISIBLE
+
 
          })
      }
