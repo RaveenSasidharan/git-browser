@@ -61,7 +61,7 @@ public class HomeRepository {
 
                             if (response.isSuccessful())
                             {
-                               // saveRepoLocally(response.body());
+                                saveRepoLocally(response.body());
                                 repoListLiveData.setValue(response.body());
                             }
                             else

@@ -20,8 +20,13 @@ class GitRepoTypeConverters {
 
 
     @TypeConverter
-    fun fromLicenseObject(license: License) : String{
+    fun fromLicenseObject(license: License?) : String{
         val gson = Gson()
+
+        if (license == null){
+            var newLicense = License("Not License", null)
+            return gson.toJson(newLicense)
+        }
         return gson.toJson(license)
     }
 

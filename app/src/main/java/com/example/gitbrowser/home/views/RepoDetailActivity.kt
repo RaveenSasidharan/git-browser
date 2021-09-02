@@ -47,23 +47,25 @@ class RepoDetailActivity : AppCompatActivity() {
         activityRepoDetailsBinding.repoTitle.text = gitRepo.full_name
         activityRepoDetailsBinding.link.text = gitRepo.html_url
         activityRepoDetailsBinding.aboutText.text = gitRepo.description
-        activityRepoDetailsBinding.license.text = gitRepo.license.name
+       // activityRepoDetailsBinding.license.text = gitRepo.license.name
 
         Glide
             .with(this)
-            .load(gitRepo.owner.avatar_url)
+            .load(gitRepo.owner?.avatar_url)
             .into(activityRepoDetailsBinding.image)
 
         activityRepoDetailsBinding.link.setPaintFlags(activityRepoDetailsBinding.link.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
 
 
-        var url = gitRepo.contributors_url.replace(BuildConfig.BASE_URL, "")
-        repoDetailsViewModel.getContributors(url).observe(this, {
-            var contributorAdapter = ContributorAdapter(it)
+        var url = gitRepo.contributors_url?.replace(BuildConfig.BASE_URL, "")
+        url?.let {
+            repoDetailsViewModel.getContributors(it).observe(this, {
+                var contributorAdapter = ContributorAdapter(it)
 
-            activityRepoDetailsBinding.contributorRecycler.adapter = contributorAdapter
-            contributorAdapter.notifyDataSetChanged()
-        })
+                activityRepoDetailsBinding.contributorRecycler.adapter = contributorAdapter
+                contributorAdapter.notifyDataSetChanged()
+            })
+        }
 
     }
 
@@ -75,12 +77,15 @@ class RepoDetailActivity : AppCompatActivity() {
 
     fun openLicense()
     {
+     /*   if (gitRepo.license == null) {
+            return
+        }
         val intent : Intent = Intent(this,BrowserActivity::class.java)
         val bundle : Bundle = Bundle()
         bundle.putString("title", gitRepo.license.name)
-        bundle.putString("url", gitRepo.license.html_url)
+        bundle.putString("url", gitRepo.license.url)
         intent.putExtras(bundle)
-        startActivity(intent)
+        startActivity(intent)*/
     }
 
     fun openGitRepo()
@@ -88,7 +93,7 @@ class RepoDetailActivity : AppCompatActivity() {
         val intent : Intent = Intent(this,BrowserActivity::class.java)
         val bundle : Bundle = Bundle()
         bundle.putString("title", gitRepo.full_name)
-        bundle.putString("url", gitRepo.url)
+        bundle.putString("url", gitRepo.html_url)
         intent.putExtras(bundle)
         startActivity(intent)
     }

@@ -11,7 +11,7 @@ object Constants {
 
     object Db {
         const val DATABASE_NAME = "github_db"
-        const val CURRENT_DB_VERSION = 1
+        const val CURRENT_DB_VERSION = 4
     }
 
 }

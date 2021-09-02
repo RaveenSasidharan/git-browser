@@ -36,7 +36,7 @@ class RepoAdapter (private var repoList: MutableList<GitRepo>,
 
             Glide
                 .with(binding.root.context)
-                .load(gitRepo.owner.avatar_url)
+                .load(gitRepo.owner?.avatar_url)
                 .into(binding.thumbnail);
 
         }
