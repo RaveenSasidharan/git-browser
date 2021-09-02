@@ -66,9 +66,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun fetchRepositoryForPage( page : Int){
+        activityHomeBinding.repoShimmer.startShimmer()
+
         homeViewModel.fetchRepoForPage(page, query).observe(this@HomeActivity,{it ->
             repoAdapter.addRepos(it.items)
             repoAdapter.notifyDataSetChanged()
+            activityHomeBinding.repoShimmer.stopShimmer()
+
         })
     }
 
@@ -86,6 +90,8 @@ class HomeActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 if (!TextUtils.isEmpty(s)){
 
+                    activityHomeBinding.repoShimmer.startShimmer()
+
                     query = s.toString()
                     homeViewModel.searchTopicFor(s.toString()).observe(this@HomeActivity,{it ->
                         repoList = it.items
@@ -95,6 +101,9 @@ class HomeActivity : AppCompatActivity() {
 
                         activityHomeBinding.repoRecycler.adapter = repoAdapter
                         repoAdapter.notifyDataSetChanged()
+
+                        activityHomeBinding.repoShimmer.stopShimmer()
+
                     })
                 }
                 else
@@ -108,6 +117,8 @@ class HomeActivity : AppCompatActivity() {
 
     fun popuateRepo()
      {
+         activityHomeBinding.repoShimmer.startShimmer()
+
          query = "popular"
          homeViewModel.trendingRepo.observe(this,{it ->
              repoList = it.items
@@ -118,6 +129,8 @@ class HomeActivity : AppCompatActivity() {
 
              activityHomeBinding.repoRecycler.adapter = repoAdapter
              repoAdapter.notifyDataSetChanged()
+             activityHomeBinding.repoShimmer.stopShimmer()
+
          })
      }
 }
