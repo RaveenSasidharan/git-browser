@@ -7,6 +7,7 @@ object Constants {
     const val GSON_OF_RETROFIT = "retrofit_gson"
     const val GSON_OF_GOOGLE = "google_gson"
     const val NEWS_FEED_API_HEADERS = "newsFeedAPiHeader"
+    const val PER_PAGE = 10
 
     object Db {
         const val DATABASE_NAME = "github_db"

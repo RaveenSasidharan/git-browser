@@ -11,6 +11,7 @@ import com.example.gitbrowser.home.models.Contributors;
 import com.example.gitbrowser.home.models.GitRepo;
 import com.example.gitbrowser.home.models.RepoSearchResponse;
 import com.example.gitbrowser.utils.CommonUtils;
+import com.example.gitbrowser.utils.Constants;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -53,14 +54,14 @@ public class HomeRepository {
     {
         if (CommonUtils.INSTANCE.checkConnection())
         {
-            mRestApi.getRepoList("popular")
+            mRestApi.getRepoList("popular", Constants.PER_PAGE)
                     .enqueue(new Callback<RepoSearchResponse>() {
                         @Override
                         public void onResponse(Call<RepoSearchResponse> call, Response<RepoSearchResponse> response) {
 
                             if (response.isSuccessful())
                             {
-                                saveRepoLocally(response.body());
+                               // saveRepoLocally(response.body());
                                 repoListLiveData.setValue(response.body());
                             }
                             else
@@ -143,7 +144,7 @@ public class HomeRepository {
     {
         if (CommonUtils.INSTANCE.checkConnection())
         {
-            mRestApi.getRepoList(q)
+            mRestApi.getRepoList(q, Constants.PER_PAGE)
                     .enqueue(new Callback<RepoSearchResponse>() {
                         @Override
                         public void onResponse(Call<RepoSearchResponse> call, Response<RepoSearchResponse> response) {
@@ -173,6 +174,40 @@ public class HomeRepository {
     }
 
 
+    public void getRepoWithQueryPage(MutableLiveData<RepoSearchResponse> repoListLiveData,
+                                 MutableLiveData<Throwable> throwableMutableLiveData,
+                                 String q, int page)
+    {
+        if (CommonUtils.INSTANCE.checkConnection())
+        {
+            mRestApi.getRepoListPage(q, Constants.PER_PAGE, page)
+                    .enqueue(new Callback<RepoSearchResponse>() {
+                        @Override
+                        public void onResponse(Call<RepoSearchResponse> call, Response<RepoSearchResponse> response) {
+
+                            if (response.isSuccessful())
+                                repoListLiveData.setValue(response.body());
+                            else
+                            {
+                                Throwable throwable = new Throwable("Server Failure");
+                                throwableMutableLiveData.setValue(throwable);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RepoSearchResponse> call, Throwable t) {
+
+                            throwableMutableLiveData.setValue(t);
+                        }
+                    });
+        }
+        else
+        {
+            Throwable throwable = new Throwable("No Internet Connection");
+            throwableMutableLiveData.setValue(throwable);
+        }
+
+    }
 
     public void saveRepoLocally(RepoSearchResponse repoSearchResponse)
     {

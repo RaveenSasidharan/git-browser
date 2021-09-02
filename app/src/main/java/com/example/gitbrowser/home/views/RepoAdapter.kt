@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.gitbrowser.databinding.ListRepoItemBinding
 import com.example.gitbrowser.home.models.GitRepo
 
-class RepoAdapter (private val repoList: List<GitRepo>,
+class RepoAdapter (private var repoList: MutableList<GitRepo>,
                    private val activity: AppCompatActivity) :RecyclerView.Adapter<RepoAdapter.RepoHolder>() {
 
     ///
@@ -68,5 +68,11 @@ class RepoAdapter (private val repoList: List<GitRepo>,
 
     override fun getItemCount(): Int {
         return repoList.size
+    }
+
+
+    fun addRepos(repos: List<GitRepo>)
+    {
+        repoList.addAll(repos)
     }
 }

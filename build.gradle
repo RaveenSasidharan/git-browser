@@ -58,4 +58,6 @@ ext {
 
     //
     timber = '4.7.1'
+
+     paging_version = "3.0.1"
 }

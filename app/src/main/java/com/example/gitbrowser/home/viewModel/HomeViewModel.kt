@@ -34,6 +34,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
+    fun  fetchRepoForPage(page : Int, query: String): LiveData<RepoSearchResponse>
+    {
+        val repoListLiveData = MutableLiveData<RepoSearchResponse>()
+        homeRepository.getRepoWithQueryPage(repoListLiveData, errorData, query, page)
+        return repoListLiveData
+    }
 
 
 }
